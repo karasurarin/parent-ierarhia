@@ -1,0 +1,38 @@
+class Parent:
+    def __init__(self):
+        self.children_info = {}
+
+    def add_child_info(self, child_name, info):
+        self.children_info[child_name] = info
+
+    def show_children_info(self):
+        print("Children Info:")
+        for child_name, info in self.children_info.items():
+            print(f"{child_name}: {info}")
+
+class Son1(Parent):
+    def __init__(self):
+        super().__init__()
+        self.add_child_info("Son1", "I am 12 years old")
+        print(self.children_info["Son1"])
+
+class Son2(Son1):
+    def __init__(self):
+        super().__init__()
+        print(f"Son2 repeats Son1: {self.children_info['Son1']}")
+        self.add_child_info("Son2", "I am 13 years old and my height is 170 cm")
+        print(self.children_info["Son2"])
+
+class Son3(Son2):
+    def __init__(self):
+        super().__init__()
+        print(f"Son3 repeats Son2: {self.children_info['Son2']}")
+        self.add_child_info("Son3", "I am 11 years old, my height is 170 cm, and I have a peanut allergy")
+        print(self.children_info["Son3"])
+
+son1_instance = Son1()
+son2_instance = Son2()
+son3_instance = Son3()
+
+parent_instance = Parent()
+parent_instance.show_children_info()
