@@ -1,0 +1,115 @@
+import random
+
+class Pet:
+    def __init__(self, name="Bobik"):
+        self.name = name
+        self.happiness = 50
+        self.health = 100
+
+    def feed(self):
+        print(f"{self.name} is being fed.")
+        self.happiness += 10
+        self.health += 5
+
+    def play(self):
+        print(f"{self.name} is playing!")
+        self.happiness += 15
+        self.health -= 5
+
+    def check_status(self):
+        print(f"{self.name}'s happiness: {self.happiness}, health: {self.health}")
+        if self.happiness <= 0:
+            print(f"{self.name} is sad and doesn't want to play.")
+        if self.health <= 0:
+            print(f"{self.name} is sick and needs rest.")
+        
+        if self.happiness < 30:
+            return "sad"
+        if self.health < 20:
+            return "sick"
+        return "healthy"
+
+    def elice(self):
+        """ Boost pet's happiness and health, as if it's a special treat. """
+        print(f"{self.name} is enjoying a special treat!")
+        self.happiness += 20
+        self.health += 10
+
+
+class Owner:
+    def __init__(self, name="Owner"):
+        self.name = name
+        self.money = 100
+        self.joy = 50
+        self.pet = Pet(name="Bobik")
+
+    def care_for_pet(self):
+        action = random.choice(["feed", "play"])
+        if action == "feed":
+            self.pet.feed()
+            self.joy += 5
+        elif action == "play":
+            self.pet.play()
+            self.joy += 10
+
+    def check_joy(self):
+        print(f"{self.name}'s joy: {self.joy}")
+        if self.joy <= 0:
+            print(f"{self.name} is sad.")
+            return False
+        return True
+
+    def elice(self):
+        """ Boost the owner's joy and the pet's happiness with a special moment. """
+        print(f"{self.name} and {self.pet.name} are having a great time together!")
+        self.joy += 20
+        self.pet.elice()
+
+    def elife_dice(self):
+        """ Random event generator using a dice roll. """
+        roll = random.randint(1, 6)
+        print(f"Dice roll result: {roll}")
+        
+        if roll == 1:
+            print(f"{self.name} and {self.pet.name} had a rough day. Both are feeling down.")
+            self.joy -= 10
+            self.pet.happiness -= 10
+        elif roll == 2:
+            print(f"{self.name} feels a bit better, but the pet is feeling sad.")
+            self.joy += 10
+            self.pet.happiness -= 5
+        elif roll == 3:
+            print(f"{self.name} and {self.pet.name} had an average day.")
+            self.joy += 5
+            self.pet.happiness += 5
+        elif roll == 4:
+            print(f"Great day! {self.name} and {self.pet.name} are both in a good mood.")
+            self.joy += 20
+            self.pet.happiness += 15
+        elif roll == 5:
+            print(f"Surprise! {self.name} won a lottery! Both get a huge happiness boost!")
+            self.joy += 30
+            self.pet.happiness += 25
+        elif roll == 6:
+            print(f"Disaster strikes! {self.name} lost money, and {self.pet.name} got sick.")
+            self.joy -= 20
+            self.pet.happiness -= 15
+            self.pet.health -= 10
+
+    def simulate_day(self):
+        print(f"\nStarting a day in {self.name}'s life.")
+        self.care_for_pet()
+        self.elife_dice()
+        self.pet.check_status()
+        if not self.check_joy():
+            print(f"{self.name} is too sad to continue caring for the pet.")
+            return False
+        return True
+
+
+owner = Owner(name="Alex")
+for day in range(1, 8):
+    print(f"\nDay {day}:")
+    if not owner.simulate_day():
+        print("The simulation ends because the owner is too sad.")
+        break
